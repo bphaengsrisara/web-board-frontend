@@ -9,7 +9,16 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        castoro: ["var(--font-castoro)", "serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
+        "ibm-plex-sans": ["var(--font-ibm-plex-sans)", "sans-serif"],
+      },
       colors: {
+        "green-1": "#243831",
+        "green-2": "#2B5F44",
+        "grey-1": "#A0AFBA",
+        "grey-2": "#939494",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
