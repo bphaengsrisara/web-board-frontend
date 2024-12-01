@@ -4,10 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UserFormData } from "@/interfaces";
-import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/api/auth";
 import { useRouter } from "next/navigation";
-import { useUserProfile } from "@/hooks/use-auth";
+import { useSignIn, useUserProfile } from "@/hooks/use-auth";
 import { useEffect } from "react";
 
 export default function SignInForm() {
@@ -15,12 +13,7 @@ export default function SignInForm() {
   const { push } = useRouter();
   const { data: user, refetch } = useUserProfile();
 
-  const { mutate, isPending, error, reset } = useMutation({
-    mutationFn: signIn,
-    onSuccess: () => {
-      refetch();
-    },
-  });
+  const { mutate, isPending, error, reset } = useSignIn(refetch);
 
   const onSubmit: SubmitHandler<UserFormData> = (data) => {
     mutate(data);

@@ -1,7 +1,15 @@
 "use client";
 
-import { fetchUserProfile, logout } from "@/api/auth";
+import { fetchUserProfile, logout, signIn } from "@/api/auth";
+import { UserFormData } from "@/interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+export function useSignIn(onSuccess?: () => void) {
+  return useMutation<string, Error, UserFormData>({
+    mutationFn: signIn,
+    onSuccess,
+  });
+}
 
 export function useUserProfile() {
   return useQuery({
