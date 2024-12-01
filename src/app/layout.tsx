@@ -3,7 +3,6 @@ import { Castoro, IBM_Plex_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const castoro = Castoro({
   subsets: ["latin"],
@@ -40,10 +39,7 @@ export default function RootLayout({
           "antialiased",
         )}
       >
-        <ReactQueryProvider>
-          <ReactQueryDevtools />
-          {children}
-        </ReactQueryProvider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );
