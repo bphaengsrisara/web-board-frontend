@@ -7,21 +7,30 @@ import { UserFormData } from "@/interfaces";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "@/api/auth";
 import { useRouter } from "next/navigation";
+import { useUserProfile } from "@/hooks/use-auth";
+import { useEffect } from "react";
 
 export default function SignInForm() {
   const { register, handleSubmit } = useForm<UserFormData>();
   const { push } = useRouter();
+  const { data: user, refetch } = useUserProfile();
 
   const { mutate, isPending, error, reset } = useMutation({
     mutationFn: signIn,
     onSuccess: () => {
-      push("/");
+      refetch();
     },
   });
 
   const onSubmit: SubmitHandler<UserFormData> = (data) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (user) {
+      push("/");
+    }
+  }, [push, user]);
 
   return (
     <div className="w-full md:w-[384px]">

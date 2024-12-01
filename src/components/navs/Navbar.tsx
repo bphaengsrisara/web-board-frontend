@@ -9,14 +9,14 @@ import {
   SheetDescription,
 } from "../ui/sheet";
 import Image from "next/image";
-import SignInButton from "../forms/SignInButton";
+import SignInOutButton from "../forms/SignInOutButton";
 import NavLinks from "./NavLinks";
 
 export default function Navbar() {
   return (
     <div className="fixed top-0 z-10 flex h-[72px] w-full items-center justify-between bg-green-1 px-4 text-white md:h-[60px] md:px-8">
       <span className="font-castoro text-[1.25rem] italic">a Board</span>
-      <SignInButton />
+      <SignInOutButton />
       <Sheet>
         <SheetTrigger asChild className="md:hidden">
           <Image

@@ -4,10 +4,10 @@ import { API_URL } from "@/config";
 export const signIn = async (data: UserFormData): Promise<string> => {
   const response = await fetch(`${API_URL}/auth/sign-in`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
     body: JSON.stringify(data),
   });
 
@@ -32,5 +32,18 @@ export async function fetchUserProfile(): Promise<User | null> {
   } catch (error) {
     console.error("Error fetching user profile:", error);
     return null;
+  }
+}
+
+export async function logout(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_URL}/auth/sign-out`, {
+      method: "POST",
+      credentials: "include",
+    });
+    return res.ok;
+  } catch (error) {
+    console.error("Error logging out:", error);
+    return false;
   }
 }

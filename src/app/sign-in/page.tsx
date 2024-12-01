@@ -1,17 +1,7 @@
 import Image from "next/image";
 import SignInForm from "@/components/forms/SignInForm";
-import { cookies } from "next/headers";
-import { TOKEN_KEY } from "@/config";
-import { redirect } from "next/navigation";
 
 export default async function SignIn() {
-  const cookieStore = await cookies();
-
-  // If the user is already logged in, redirect to the home page
-  if (cookieStore.has(TOKEN_KEY)) {
-    redirect("/");
-  }
-
   return (
     <div className="flex h-screen flex-col bg-green-1 md:flex-row">
       <div className="order-2 flex h-screen flex-col items-center justify-center bg-green-1 p-4 text-white md:order-1 md:h-auto md:w-7/12">
