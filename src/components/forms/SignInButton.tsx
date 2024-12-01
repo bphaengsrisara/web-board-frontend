@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import Image from "next/image";
 
 export default function SignInButton() {
   const { push } = useRouter();
@@ -15,10 +16,13 @@ export default function SignInButton() {
 
   if (user) {
     const { id, username } = user;
+    const imgSrc = `https://i.pravatar.cc/150?u=${id}`;
     return (
       <Avatar className="hidden h-8 w-8 cursor-pointer md:block">
-        <AvatarImage src={`https://i.pravatar.cc/150?u=${id}`} />
-        <AvatarFallback>{username}</AvatarFallback>
+        <AvatarImage asChild src={imgSrc}>
+          <Image src={imgSrc} alt={username} width={40} height={40} />
+        </AvatarImage>
+        <AvatarFallback>{username.charAt(0).toUpperCase()}</AvatarFallback>
       </Avatar>
     );
   }
