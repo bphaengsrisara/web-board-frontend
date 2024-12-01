@@ -1,4 +1,4 @@
-import { ApiErrorResponse, UserFormData } from "@/interfaces";
+import { ApiErrorResponse, User, UserFormData } from "@/interfaces";
 import { API_URL } from "@/config";
 
 export const signIn = async (data: UserFormData): Promise<string> => {
@@ -21,3 +21,16 @@ export const signIn = async (data: UserFormData): Promise<string> => {
 
   return responseData;
 };
+
+export async function fetchUserProfile(): Promise<User | null> {
+  try {
+    const res = await fetch(`${API_URL}/users/profile`, {
+      credentials: "include",
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
+}

@@ -34,7 +34,7 @@ export default function SignInForm() {
             placeholder="Username"
             onKeyDown={reset}
             {...register("username")}
-            className="placeholder:text-grey-1 w-full rounded-md border border-gray-300 bg-white p-3 text-black focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full rounded-md border border-gray-300 bg-white p-3 text-black placeholder:text-grey-1 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
