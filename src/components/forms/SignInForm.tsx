@@ -6,21 +6,16 @@ import { Button } from "@/components/ui/button";
 import { UserFormData } from "@/interfaces";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "@/api/auth";
-import { useBoundStore } from "@/store/useBoundStore";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserFormData>();
+  const { register, handleSubmit } = useForm<UserFormData>();
+  const { push } = useRouter();
 
-  const setUser = useBoundStore((state) => state.setUser);
-
-  const { mutate, isPending, error } = useMutation({
+  const { mutate, isPending, error, reset } = useMutation({
     mutationFn: signIn,
-    onSuccess: (user) => {
-      setUser(user);
+    onSuccess: () => {
+      push("/");
     },
   });
 
@@ -37,14 +32,10 @@ export default function SignInForm() {
             id="username"
             type="text"
             placeholder="Username"
-            {...register("username", { required: "Username is required" })}
+            onKeyDown={reset}
+            {...register("username")}
             className="placeholder:text-grey-1 w-full rounded-md border border-gray-300 bg-white p-3 text-black focus:outline-none focus:ring-2 focus:ring-green-500"
           />
-          {errors.username && (
-            <p className="mt-1 text-sm text-red-400">
-              {errors.username.message}
-            </p>
-          )}
         </div>
 
         <Button

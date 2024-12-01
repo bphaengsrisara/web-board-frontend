@@ -1,18 +1,23 @@
-import { User, UserFormData } from "@/interfaces";
-import { API_URL } from "./config";
+import { ApiErrorResponse, UserFormData } from "@/interfaces";
+import { API_URL } from "@/config";
 
-export const signIn = async (data: UserFormData): Promise<User> => {
+export const signIn = async (data: UserFormData): Promise<string> => {
   const response = await fetch(`${API_URL}/auth/sign-in`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(data),
   });
 
+  const responseData = await response.json();
+
   if (!response.ok) {
-    throw new Error("Failed to sign in");
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to sign in",
+    );
   }
 
-  return response.json();
+  return responseData;
 };
