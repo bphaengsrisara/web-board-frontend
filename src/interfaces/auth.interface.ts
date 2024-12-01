@@ -13,3 +13,7 @@ export interface AuthActions {
 }
 
 export type AuthSlice = AuthState & AuthActions;
+
+export interface UserFormData {
+  username: string;
+}
