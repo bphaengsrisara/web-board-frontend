@@ -35,7 +35,7 @@ export default function CreatePostDialog() {
     },
   });
   const { data: topics } = useTopics();
-  const { mutate, status } = useCreatePost();
+  const { mutate, status, error, reset } = useCreatePost();
 
   const handleClose = useCallback(() => {
     push("/");
@@ -89,7 +89,9 @@ export default function CreatePostDialog() {
           <FormField
             name="title"
             control={control}
-            render={({ field }) => <Input {...field} placeholder="Title" />}
+            render={({ field }) => (
+              <Input {...field} onKeyDown={reset} placeholder="Title" />
+            )}
           />
           <FormField
             name="content"
@@ -97,11 +99,21 @@ export default function CreatePostDialog() {
             render={({ field }) => (
               <Textarea
                 {...field}
+                onKeyDown={reset}
                 placeholder="What’s on your mind..."
                 rows={5}
               />
             )}
           />
+          {error && error instanceof Error && error.message && (
+            <>
+              {error.message.split(",").map((message) => (
+                <p key={message.split(" ")[0]} className="text-sm text-red-500">
+                  {message}
+                </p>
+              ))}
+            </>
+          )}
           <div className="flex flex-col justify-end gap-2 md:flex-row md:gap-4">
             <Button
               variant={"outline"}
