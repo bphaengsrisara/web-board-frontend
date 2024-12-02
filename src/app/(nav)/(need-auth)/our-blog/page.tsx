@@ -47,6 +47,7 @@ export default function OurBlog() {
                 key={post.id}
                 post={post}
                 last={index === posts.length - 1}
+                editable
               />
             ))}
           </div>
