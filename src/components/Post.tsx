@@ -68,7 +68,9 @@ export default function Post({
 
         <h2 className="text-base font-semibold">{post.title}</h2>
 
-        <p className="text-sm text-gray-600">{post.content}</p>
+        <p className="whitespace-pre-line text-sm text-gray-600">
+          {post.content}
+        </p>
 
         <div className="flex items-center gap-2 text-sm text-grey-2">
           <Image
