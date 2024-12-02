@@ -3,6 +3,7 @@ import {
   TopicData,
   PostData,
   PostSearchFormData,
+  PostFormData,
 } from "@/interfaces";
 import { API_URL } from "@/config";
 
@@ -67,4 +68,30 @@ export const fetchMyPosts = async ({
     { topicId, search },
     "Failed to fetch my posts",
   );
+};
+
+export const createPost = async (data: PostFormData): Promise<PostData> => {
+  const { title, content, topics } = data;
+  const response = await fetch(`${API_URL}/posts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      title,
+      content,
+      topicIds: topics,
+    }),
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to create post",
+    );
+  }
+
+  return responseData;
 };

@@ -81,7 +81,7 @@ export default function SearchBar() {
           />
 
           <Button asChild className="flex-1">
-            <Link href="/post/create">Create +</Link>
+            <Link href="/create-post">Create +</Link>
           </Button>
         </>
       )}
