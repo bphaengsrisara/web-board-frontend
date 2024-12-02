@@ -7,14 +7,14 @@ import { useRouter } from "next/navigation";
 export default function NeedAuthLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const { data: user } = useUserProfile();
+  const { data: user, isFetching } = useUserProfile();
   const { push } = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isFetching) {
       push("/sign-in");
     }
-  }, [push, user]);
+  }, [push, user, isFetching]);
 
   return children;
 }
