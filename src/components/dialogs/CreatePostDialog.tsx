@@ -26,7 +26,7 @@ import {
 import { useTopics, useCreatePost } from "@/hooks/use-post";
 
 export default function CreatePostDialog() {
-  const { push } = useRouter();
+  const { back } = useRouter();
   const { control, handleSubmit } = useForm<PostFormData>({
     defaultValues: {
       title: "",
@@ -38,8 +38,8 @@ export default function CreatePostDialog() {
   const { mutate, status, error, reset } = useCreatePost();
 
   const handleClose = useCallback(() => {
-    push("/");
-  }, [push]);
+    back();
+  }, [back]);
 
   const onSubmit = (data: PostFormData) => {
     mutate(data, {
