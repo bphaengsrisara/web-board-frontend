@@ -1,4 +1,9 @@
-import { ApiErrorResponse, TopicData, PostData } from "@/interfaces";
+import {
+  ApiErrorResponse,
+  TopicData,
+  PostData,
+  PostSearchFormData,
+} from "@/interfaces";
 import { API_URL } from "@/config";
 
 export const fetchTopics = async (): Promise<TopicData[]> => {
@@ -18,20 +23,19 @@ export const fetchTopics = async (): Promise<TopicData[]> => {
   return responseData;
 };
 
-export const fetchPosts = async ({
-  topicId,
-  search,
-}: {
-  topicId?: string;
-  search?: string;
-}): Promise<PostData[]> => {
-  const params = new URLSearchParams();
-  if (topicId) params.append("topicId", topicId);
-  if (search) params.append("search", search);
+const fetchPostsBase = async (
+  endpoint: string,
+  params: PostSearchFormData,
+  errorMessage: string,
+): Promise<PostData[]> => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) searchParams.append(key, value);
+  });
 
-  const url = params.toString()
-    ? `${API_URL}/posts?${params.toString()}`
-    : `${API_URL}/posts`;
+  const url = searchParams.toString()
+    ? `${API_URL}${endpoint}?${searchParams.toString()}`
+    : `${API_URL}${endpoint}`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -41,10 +45,26 @@ export const fetchPosts = async ({
   const responseData = await response.json();
 
   if (!response.ok) {
-    throw new Error(
-      (responseData as ApiErrorResponse).message || "Failed to fetch posts",
-    );
+    throw new Error((responseData as ApiErrorResponse).message || errorMessage);
   }
 
   return responseData;
+};
+
+export const fetchPosts = async ({
+  topicId,
+  search,
+}: PostSearchFormData): Promise<PostData[]> => {
+  return fetchPostsBase("/posts", { topicId, search }, "Failed to fetch posts");
+};
+
+export const fetchMyPosts = async ({
+  topicId,
+  search,
+}: PostSearchFormData): Promise<PostData[]> => {
+  return fetchPostsBase(
+    "/posts/my-posts",
+    { topicId, search },
+    "Failed to fetch my posts",
+  );
 };
