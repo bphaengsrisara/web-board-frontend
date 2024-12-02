@@ -9,9 +9,9 @@ export default async function NavLayout({
   return (
     <>
       <Navbar />
-      <SidebarProvider className="mt-[72px] md:mt-[60px]">
+      <SidebarProvider>
         <AppSideBar />
-        <main className="flex w-full justify-center">
+        <main className="mt-[72px] flex w-full justify-center md:mt-[60px]">
           <div className="px-4 py-8 font-inter md:w-[70%] md:p-10">
             {children}
           </div>

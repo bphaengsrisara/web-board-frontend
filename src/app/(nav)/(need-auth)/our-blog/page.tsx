@@ -39,7 +39,7 @@ export default function OurBlog() {
     }
 
     return (
-      <Card className="w-full">
+      <Card className="w-full overflow-auto">
         <CardContent className="px-0 pt-6">
           <div className="space-y-6">
             {posts.map((post, index) => (
@@ -58,10 +58,10 @@ export default function OurBlog() {
 
   return (
     <FormProvider {...methods}>
-      <div className="flex min-h-screen flex-col items-start justify-start gap-8">
+      <div className="flex flex-col items-start justify-start gap-8">
         <SearchBar />
 
-        <div className="flex w-full flex-col items-start gap-8">
+        <div className="flex h-[calc(100vh-220px)] w-full flex-col items-start gap-8 overflow-hidden">
           {renderPosts()}
         </div>
       </div>
