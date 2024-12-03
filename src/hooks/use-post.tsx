@@ -7,6 +7,7 @@ import {
   createPost,
   deletePost,
   editPost,
+  fetchPost,
 } from "@/api/post";
 import { PostSearchFormData } from "@/interfaces";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -29,6 +30,13 @@ export function useMyPosts({ topicId, search }: PostSearchFormData) {
   return useQuery({
     queryKey: ["my-posts", { topicId, search }],
     queryFn: () => fetchMyPosts({ topicId, search }),
+  });
+}
+
+export function usePost(postId: string) {
+  return useQuery({
+    queryKey: ["post", postId],
+    queryFn: () => fetchPost(postId),
   });
 }
 

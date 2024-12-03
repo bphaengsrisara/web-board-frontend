@@ -4,6 +4,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import DeletePostDialog from "./dialogs/DeletePostDialog";
 import EditPostDialog from "./dialogs/EditPostDialog";
+import { useCallback } from "react";
+import { redirect } from "next/navigation";
 
 export default function Post({
   post,
@@ -15,6 +17,10 @@ export default function Post({
   editable?: boolean;
 }>) {
   const imgSrc = `https://i.pravatar.cc/150?u=${post.author.id}`;
+
+  const navigate = useCallback(() => {
+    redirect(`/post/${post.id}`);
+  }, [post.id]);
 
   return (
     <>
@@ -44,7 +50,7 @@ export default function Post({
           )}
         </div>
 
-        <div>
+        <div onClick={navigate} aria-hidden className="cursor-pointer">
           <div className="flex flex-wrap gap-2">
             {post.topics.map((topic) => (
               <span
@@ -57,13 +63,27 @@ export default function Post({
           </div>
         </div>
 
-        <h2 className="text-base font-semibold">{post.title}</h2>
+        <h2
+          onClick={navigate}
+          aria-hidden
+          className="cursor-pointer text-base font-semibold"
+        >
+          {post.title}
+        </h2>
 
-        <p className="whitespace-pre-line text-sm text-gray-600">
+        <p
+          onClick={navigate}
+          aria-hidden
+          className="cursor-pointer whitespace-pre-line text-sm text-gray-600"
+        >
           {post.content}
         </p>
 
-        <div className="flex items-center gap-2 text-sm text-grey-2">
+        <div
+          onClick={navigate}
+          aria-hidden
+          className="flex cursor-pointer items-center gap-2 text-sm text-grey-2"
+        >
           <Image
             src="/images/comment.svg"
             alt="Comments"

@@ -70,6 +70,23 @@ export const fetchMyPosts = async ({
   );
 };
 
+export const fetchPost = async (postId: string): Promise<PostData> => {
+  const response = await fetch(`${API_URL}/posts/${postId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to fetch post",
+    );
+  }
+
+  return responseData;
+};
+
 export const createPost = async (data: PostFormData): Promise<PostData> => {
   const response = await fetch(`${API_URL}/posts`, {
     method: "POST",

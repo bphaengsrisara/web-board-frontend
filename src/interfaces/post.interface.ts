@@ -7,6 +7,8 @@ export interface PostData {
   author: User;
   comments: CommentData[];
   topics: TopicData[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PostFormData {
@@ -23,7 +25,9 @@ export interface PostSearchFormData {
 export interface CommentData {
   id: string;
   content: string;
-  user: User;
+  author: User;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface TopicData {
