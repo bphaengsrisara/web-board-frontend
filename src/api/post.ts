@@ -95,3 +95,18 @@ export const createPost = async (data: PostFormData): Promise<PostData> => {
 
   return responseData;
 };
+
+export const deletePost = async (postId: string): Promise<void> => {
+  const response = await fetch(`${API_URL}/posts/${postId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to delete post",
+    );
+  }
+};

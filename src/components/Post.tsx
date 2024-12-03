@@ -2,6 +2,7 @@ import { PostData } from "@/interfaces";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
+import DeletePostDialog from "./dialogs/DeletePostDialog";
 
 export default function Post({
   post,
@@ -13,6 +14,7 @@ export default function Post({
   editable?: boolean;
 }>) {
   const imgSrc = `https://i.pravatar.cc/150?u=${post.author.id}`;
+
   return (
     <>
       <div className="space-y-2 px-6">
@@ -42,13 +44,7 @@ export default function Post({
                 height={11}
                 className="ml-auto cursor-pointer"
               />
-              <Image
-                src="/images/delete.svg"
-                alt="delete"
-                width={12}
-                height={13}
-                className="cursor-pointer"
-              />
+              <DeletePostDialog post={post} />
             </>
           )}
         </div>

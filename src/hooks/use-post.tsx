@@ -1,6 +1,12 @@
 "use client";
 
-import { fetchTopics, fetchPosts, fetchMyPosts, createPost } from "@/api/post";
+import {
+  fetchTopics,
+  fetchPosts,
+  fetchMyPosts,
+  createPost,
+  deletePost,
+} from "@/api/post";
 import { PostSearchFormData } from "@/interfaces";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -30,6 +36,19 @@ export function useCreatePost(onSuccess?: () => void) {
 
   return useMutation({
     mutationFn: createPost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["my-posts"] });
+      onSuccess?.();
+    },
+  });
+}
+
+export function useDeletePost(onSuccess?: () => void) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["my-posts"] });
