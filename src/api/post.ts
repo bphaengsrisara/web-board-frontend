@@ -71,18 +71,13 @@ export const fetchMyPosts = async ({
 };
 
 export const createPost = async (data: PostFormData): Promise<PostData> => {
-  const { title, content, topics } = data;
   const response = await fetch(`${API_URL}/posts`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify({
-      title,
-      content,
-      topicIds: topics,
-    }),
+    body: JSON.stringify(data),
   });
 
   const responseData = await response.json();
@@ -90,6 +85,33 @@ export const createPost = async (data: PostFormData): Promise<PostData> => {
   if (!response.ok) {
     throw new Error(
       (responseData as ApiErrorResponse).message || "Failed to create post",
+    );
+  }
+
+  return responseData;
+};
+
+export const editPost = async ({
+  postId,
+  data,
+}: {
+  postId: string;
+  data: PostFormData;
+}): Promise<PostData> => {
+  const response = await fetch(`${API_URL}/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to edit post",
     );
   }
 

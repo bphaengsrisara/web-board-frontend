@@ -12,7 +12,7 @@ export interface PostData {
 export interface PostFormData {
   title: string;
   content: string;
-  topics: string[];
+  topicIds: string[];
 }
 
 export interface PostSearchFormData {

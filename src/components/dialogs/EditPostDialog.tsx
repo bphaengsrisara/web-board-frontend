@@ -1,21 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
+  DialogClose,
 } from "../ui/dialog";
 import Hidden from "../ui/hidden";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
-import { PostFormData } from "@/interfaces";
+import { PostData, PostFormData } from "@/interfaces";
 import { FormField } from "../ui/form";
 import { Button } from "../ui/button";
-import { useCallback } from "react";
 import {
   Select,
   SelectContent,
@@ -23,41 +23,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useTopics, useCreatePost } from "@/hooks/use-post";
+import { useTopics, useEditPost } from "@/hooks/use-post";
+import Image from "next/image";
+import { useState } from "react";
 
-export default function CreatePostDialog() {
-  const { back } = useRouter();
+interface EditPostDialogProps {
+  post: PostData;
+}
+
+export default function EditPostDialog({
+  post,
+}: Readonly<EditPostDialogProps>) {
+  const [isOpen, setIsOpen] = useState(false);
   const { control, handleSubmit } = useForm<PostFormData>({
     defaultValues: {
-      title: "",
-      content: "",
-      topicIds: [],
+      title: post.title,
+      content: post.content,
+      topicIds: post.topics.map((topic) => topic.id),
     },
   });
   const { data: topics } = useTopics();
-  const { mutate, status, error, reset } = useCreatePost();
-
-  const handleClose = useCallback(() => {
-    back();
-  }, [back]);
+  const { mutate, status, error, reset } = useEditPost();
 
   const onSubmit = (data: PostFormData) => {
-    mutate(data, {
-      onSuccess: () => {
-        handleClose();
+    mutate(
+      { postId: post.id, data },
+      {
+        onSuccess: () => {
+          setIsOpen(false);
+        },
       },
-    });
+    );
   };
 
   return (
-    <Dialog defaultOpen onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Image
+          src="/images/edit.svg"
+          alt="Edit"
+          width={12}
+          height={11}
+          className="ml-auto cursor-pointer"
+        />
+      </DialogTrigger>
       <DialogContent className="w-[80%] rounded-lg font-ibm-plex-sans md:w-[50%] md:rounded-xl">
         <DialogHeader>
           <DialogTitle className="text-left font-inter text-[1.5rem] md:text-[1.75rem]">
-            Create Post
+            Edit Post
           </DialogTitle>
           <Hidden>
-            <DialogDescription>Create a new post</DialogDescription>
+            <DialogDescription>Edit a new post</DialogDescription>
           </Hidden>
         </DialogHeader>
         <form
@@ -118,9 +134,9 @@ export default function CreatePostDialog() {
             <Button
               variant={"outline"}
               className="border-primary text-primary hover:text-green-2 md:w-[105px]"
-              onClick={handleClose}
+              asChild
             >
-              Cancel
+              <DialogClose>Cancel</DialogClose>
             </Button>
             <Button
               type="submit"

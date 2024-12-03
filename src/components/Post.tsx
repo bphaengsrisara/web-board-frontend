@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import DeletePostDialog from "./dialogs/DeletePostDialog";
+import EditPostDialog from "./dialogs/EditPostDialog";
 
 export default function Post({
   post,
@@ -37,13 +38,7 @@ export default function Post({
           </span>
           {editable && (
             <>
-              <Image
-                src="/images/edit.svg"
-                alt="Edit"
-                width={12}
-                height={11}
-                className="ml-auto cursor-pointer"
-              />
+              <EditPostDialog post={post} />
               <DeletePostDialog post={post} />
             </>
           )}

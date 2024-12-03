@@ -6,6 +6,7 @@ import {
   fetchMyPosts,
   createPost,
   deletePost,
+  editPost,
 } from "@/api/post";
 import { PostSearchFormData } from "@/interfaces";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -43,6 +44,19 @@ export function useCreatePost(onSuccess?: () => void) {
     },
   });
 }
+
+export const useEditPost = (onSuccess?: () => void) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: editPost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["my-posts"] });
+      onSuccess?.();
+    },
+  });
+};
 
 export function useDeletePost(onSuccess?: () => void) {
   const queryClient = useQueryClient();
