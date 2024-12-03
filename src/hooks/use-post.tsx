@@ -8,6 +8,7 @@ import {
   deletePost,
   editPost,
   fetchPost,
+  createComment,
 } from "@/api/post";
 import { PostSearchFormData } from "@/interfaces";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -72,6 +73,20 @@ export function useDeletePost(onSuccess?: () => void) {
   return useMutation({
     mutationFn: deletePost,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["my-posts"] });
+      onSuccess?.();
+    },
+  });
+}
+
+export function useCreateComment(onSuccess?: () => void) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["post"] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["my-posts"] });
       onSuccess?.();

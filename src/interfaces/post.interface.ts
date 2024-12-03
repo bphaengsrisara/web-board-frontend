@@ -30,6 +30,10 @@ export interface CommentData {
   updatedAt: string;
 }
 
+export interface CommentFormData {
+  postId: string;
+  content: string;
+}
 export interface TopicData {
   id: string;
   name: string;

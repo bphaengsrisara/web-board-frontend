@@ -2,11 +2,11 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
-import { Separator } from "./ui/separator";
 import { usePost } from "@/hooks/use-post";
 import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import AddCommentDialog from "./dialogs/AddCommentDialog";
 
 interface PostDetailProps {
   pid: string;
@@ -49,7 +49,7 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
   const imgSrc = `https://i.pravatar.cc/150?u=${author.id}`;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="ef flex flex-col gap-6">
       <div className="space-y-4 px-6">
         <Image
           src="/images/arrow-left.svg"
@@ -74,7 +74,7 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
             </AvatarFallback>
           </Avatar>
           <span className="text-sm font-medium">{author.username}</span>
-          <span className="mt-0.5 text-xs text-grey-2">
+          <span className="text-xs text-grey-2">
             {formatDistanceToNow(updatedAt, { addSuffix: true })}
           </span>
         </div>
@@ -90,11 +90,11 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
           ))}
         </div>
 
-        <h1 className="text-xl font-semibold">{title}</h1>
+        <h1 className="text-[1.75rem] font-semibold">{title}</h1>
 
-        <p className="whitespace-pre-line text-sm text-gray-600">{content}</p>
+        <p className="whitespace-pre-line text-xs text-gray-600">{content}</p>
 
-        <div className="flex cursor-pointer items-center gap-2 text-sm text-grey-2">
+        <div className="flex items-center gap-2 py-2 text-sm text-grey-2">
           <Image
             src="/images/comment.svg"
             alt="Comments"
@@ -107,41 +107,41 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
             {post.comments.length > 1 && "s"}
           </span>
         </div>
+        <AddCommentDialog post={post} />
       </div>
 
-      <Separator />
-
       <div className="space-y-4 px-6">
-        <h2 className="text-lg font-semibold">Comments</h2>
-        {comments.map((comment) => (
-          <div key={comment.id} className="flex gap-4">
-            <Avatar>
-              <AvatarImage
-                asChild
-                src={`https://i.pravatar.cc/150?u=${comment.author.id}`}
-              >
-                <Image
-                  src={`https://i.pravatar.cc/150?u=${comment.author.id}`}
-                  alt={comment.author.username}
-                  width={32}
-                  height={32}
-                />
-              </AvatarImage>
-              <AvatarFallback>
-                {comment.author.username.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
+        {comments.map((comment) => {
+          const commentImgSrc = `https://i.pravatar.cc/150?u=${comment.author.id}`;
+          return (
+            <div key={comment.id} className="flex flex-col gap-2 font-inter">
+              <div className="flex items-center gap-4">
+                <Avatar>
+                  <AvatarImage asChild src={commentImgSrc}>
+                    <Image
+                      src={commentImgSrc}
+                      alt={comment.author.username}
+                      width={40}
+                      height={40}
+                    />
+                  </AvatarImage>
+                  <AvatarFallback>
+                    {comment.author.username.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
                 <p className="text-sm font-medium">{comment.author.username}</p>
-                <span className="mt-0.5 text-xs text-grey-2">
-                  {formatDistanceToNow(comment.updatedAt, { addSuffix: true })}
+                <span className="text-xs text-grey-2">
+                  {formatDistanceToNow(comment.updatedAt, {
+                    addSuffix: true,
+                  })}
                 </span>
               </div>
-              <p className="text-sm text-gray-600">{comment.content}</p>
+              <p className="ml-[40px] pl-4 text-xs text-gray-600">
+                {comment.content}
+              </p>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

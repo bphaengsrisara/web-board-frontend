@@ -149,3 +149,25 @@ export const deletePost = async (postId: string): Promise<void> => {
     );
   }
 };
+
+export const createComment = async (data: {
+  postId: string;
+  content: string;
+}): Promise<void> => {
+  const response = await fetch(`${API_URL}/comments`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to create comment",
+    );
+  }
+};
