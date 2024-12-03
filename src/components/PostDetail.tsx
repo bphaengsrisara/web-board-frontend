@@ -49,7 +49,7 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
   const imgSrc = `https://i.pravatar.cc/150?u=${author.id}`;
 
   return (
-    <div className="ef flex flex-col gap-6">
+    <div className="flex w-screen flex-col gap-6 md:w-full">
       <div className="space-y-4 px-6">
         <Image
           src="/images/arrow-left.svg"
