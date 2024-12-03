@@ -84,7 +84,10 @@ export default function EditPostDialog({
             name="topicIds"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={(value) => field.onChange([value])}>
+              <Select
+                onValueChange={(value) => field.onChange([value])}
+                defaultValue={post.topics[0]?.id}
+              >
                 <SelectTrigger className="justify-center gap-1 border-primary px-5 font-bold text-primary focus:ring-primary md:w-fit">
                   <SelectValue placeholder="Choose a community" />
                 </SelectTrigger>
@@ -143,7 +146,7 @@ export default function EditPostDialog({
               className="md:w-[105px]"
               disabled={status === "pending"}
             >
-              Post
+              Confirm
             </Button>
           </div>
         </form>
