@@ -5,7 +5,7 @@ import Image from "next/image";
 import DeletePostDialog from "./dialogs/DeletePostDialog";
 import EditPostDialog from "./dialogs/EditPostDialog";
 import { useCallback } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Post({
   post,
@@ -16,11 +16,12 @@ export default function Post({
   last: boolean;
   editable?: boolean;
 }>) {
+  const { push } = useRouter();
   const imgSrc = `https://i.pravatar.cc/150?u=${post.author.id}`;
 
   const navigate = useCallback(() => {
-    redirect(`/post/${post.id}`);
-  }, [post.id]);
+    push(`/post/${post.id}`);
+  }, [post.id, push]);
 
   return (
     <>
