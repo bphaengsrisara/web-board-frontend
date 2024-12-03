@@ -16,6 +16,8 @@ import { Button } from "../ui/button";
 import { CommentFormData, PostData } from "@/interfaces";
 import { useCreateComment } from "@/hooks/use-post";
 import { useState } from "react";
+import { useUserProfile } from "@/hooks/use-auth";
+import { useRouter } from "next/navigation";
 
 export default function AddCommentDialog({
   post,
@@ -27,7 +29,8 @@ export default function AddCommentDialog({
       content: "",
     },
   });
-
+  const { push } = useRouter();
+  const { data: user } = useUserProfile();
   const { mutate, status, error, reset } = useCreateComment();
 
   const onSubmit = (data: CommentFormData) => {
@@ -39,7 +42,15 @@ export default function AddCommentDialog({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {
+        if (!user) {
+          return push("/sign-in");
+        }
+        setIsOpen(!isOpen);
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="outline"
