@@ -1,23 +1,8 @@
 import type { Metadata } from "next";
-import { Castoro, IBM_Plex_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
-
-export const castoro = Castoro({
-  subsets: ["latin"],
-  variable: "--font-castoro",
-  weight: "400",
-});
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-export const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  variable: "--font-ibm-plex-sans",
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-});
+import { castoro, ibmPlexSans, inter } from "@/config/font";
 
 export const metadata: Metadata = {
   title: "Web Board",
