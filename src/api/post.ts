@@ -4,6 +4,8 @@ import {
   PostData,
   PostSearchFormData,
   PostFormData,
+  CommentData,
+  CommentFormData,
 } from "@/interfaces";
 import { API_URL } from "@/config";
 
@@ -168,6 +170,48 @@ export const createComment = async (data: {
   if (!response.ok) {
     throw new Error(
       (responseData as ApiErrorResponse).message || "Failed to create comment",
+    );
+  }
+};
+
+export const editComment = async ({
+  commentId,
+  data,
+}: {
+  commentId: string;
+  data: CommentFormData;
+}): Promise<CommentData> => {
+  const response = await fetch(`${API_URL}/comments/${commentId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to edit post",
+    );
+  }
+
+  return responseData;
+};
+
+export const deleteComment = async (commentId: string): Promise<void> => {
+  const response = await fetch(`${API_URL}/comments/${commentId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      (responseData as ApiErrorResponse).message || "Failed to delete post",
     );
   }
 };

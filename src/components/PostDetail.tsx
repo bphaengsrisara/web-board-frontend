@@ -7,12 +7,16 @@ import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import AddCommentDialog from "./dialogs/AddCommentDialog";
+import { useUserProfile } from "@/hooks/use-auth";
+import DeleteDialog from "./dialogs/DeleteDialog";
+import EditCommentDialog from "./dialogs/EditCommentDialog";
 
 interface PostDetailProps {
   pid: string;
 }
 
 export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
+  const { data: user } = useUserProfile();
   const { data: post, isFetching, error } = usePost(pid);
   const { back } = useRouter();
 
@@ -113,6 +117,7 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
       <div className="space-y-4 px-6">
         {comments.map((comment) => {
           const commentImgSrc = `https://i.pravatar.cc/150?u=${comment.author.id}`;
+          const isOwner = comment.author.id === user?.id;
           return (
             <div key={comment.id} className="flex flex-col gap-2 font-inter">
               <div className="flex items-center gap-4">
@@ -135,8 +140,14 @@ export default function PostDetail({ pid }: Readonly<PostDetailProps>) {
                     addSuffix: true,
                   })}
                 </span>
+                {isOwner && (
+                  <>
+                    <EditCommentDialog post={post} comment={comment} />
+                    <DeleteDialog comment={comment} />
+                  </>
+                )}
               </div>
-              <p className="ml-[40px] pl-4 text-xs text-gray-600">
+              <p className="ml-[40px] whitespace-pre-line pl-4 text-xs text-gray-600">
                 {comment.content}
               </p>
             </div>

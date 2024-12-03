@@ -2,7 +2,7 @@ import { PostData } from "@/interfaces";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
-import DeletePostDialog from "./dialogs/DeletePostDialog";
+import DeleteDialog from "./dialogs/DeleteDialog";
 import EditPostDialog from "./dialogs/EditPostDialog";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -46,7 +46,7 @@ export default function Post({
           {editable && (
             <>
               <EditPostDialog post={post} />
-              <DeletePostDialog post={post} />
+              <DeleteDialog post={post} />
             </>
           )}
         </div>

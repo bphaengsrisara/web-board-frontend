@@ -38,3 +38,8 @@ export interface TopicData {
   id: string;
   name: string;
 }
+
+export enum DialogMode {
+  POST = "post",
+  COMMENT = "comment",
+}
