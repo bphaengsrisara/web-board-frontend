@@ -25,6 +25,7 @@ export function useSignOut() {
     mutationFn: logout,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+      queryClient.invalidateQueries({ queryKey: ["my-posts"] });
     },
   });
 }
